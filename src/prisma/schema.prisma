@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fieldReference"]
+}
+
+model User {
+  id            Int                 @id @default(autoincrement())
+  username      String              @unique @db.VarChar(16)
+  email         String              @unique
+  password      String
+  firstName     String
+  lastName      String
+  status        UserStatus          @default(INACTIVE)
+  createdAt     DateTime            @default(now())
+  favoriteBooks Book[]
+}
+
+model Book {
+  id               Int                 @id @default(autoincrement())
+  title            String              @db.VarChar(256)
+  author           String              @db.VarChar(256)
+  year             Int
+  createdAt        DateTime            @default(now())
+  favoritedByUsers User[]
+
+  @@index([createdAt])
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+  DELETED
+}
