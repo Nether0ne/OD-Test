@@ -8,7 +8,7 @@ import { queryParser } from "express-query-parser";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 
 // App Configuration
 app.use(cors());
